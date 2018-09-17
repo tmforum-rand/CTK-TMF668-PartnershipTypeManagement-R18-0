@@ -1,0 +1,1012 @@
+{
+	"info": {
+		"_postman_id": "ba2acc5e-93e3-41a2-b4b4-63a8750db193",
+		"name": "CTK-TMF668-PartnershipTypeManagement",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"_postman_id": "948f8419-f576-40e0-9b57-987bb06d9ec3",
+			"name": "TC_Partnership_N1 – Create new Partnership Type with minimum required information",
+			"item": [
+				{
+					"_postman_id": "9bb61eb8-9670-4a4e-a407-9ec47992d058",
+					"name": "/partnershipType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "91e1f286-9a06-4ba4-b382-2e4b872f7f9c",
+								"type": "text/javascript",
+								"exec": [
+									"// See: https://www.getpostman.com/docs/v6/postman/scripts/postman_sandbox_api_reference",
+									"",
+									"pm.test('Content-Type is present', function() { pm.response.to.have.header('Content-Type') });",
+									"pm.test('Content-Type is application/json', function() { pm.response.headers.has('application/json') });",
+									"//Response Code 201-Created",
+									"pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); });",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"if (Array.isArray(jsonData) && (jsonData.length > 0)) {",
+									"    jsonData.forEach(function(instance, index) {",
+									"          ",
+									"        pm.globals.set(\"IDPT1\", instance.id);",
+									"        pm.globals.set(\"HREFPT1\", instance.href);",
+									"        pm.globals.set(\"NAMEPT1\", instance.name);",
+									"            ",
+									"        // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"        pm.test('Instance ' +index+ ' has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"            ",
+									"        pm.test(\"Location on header matches expected\", function (){",
+									"            pm.expect(pm.response.headers.get(\"Location\")).to.equal(request.url + \"/\" +pm.globals.get(\"IDPT1\"));",
+									"        });",
+									"            ",
+									"        // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"        pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"        pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"        pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"        ",
+									"        if (instance.id == pm.globals.get(\"IDPT1\")){",
+									"            pm.test('id equal Post', function(){",
+									"                pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT1\"));",
+									"            });",
+									"               ",
+									"            pm.test('href equal Post', function(){",
+									"               pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT1\"));",
+									"            });",
+									"               ",
+									"            pm.test('name equal Post', function(){",
+									"               pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT1\"));",
+									"            });",
+									"        }",
+									"    });",
+									"}",
+									"else {",
+									"    var instance = pm.response.json();",
+									"        ",
+									"    pm.globals.set(\"IDPT1\", instance.id);",
+									"    pm.globals.set(\"HREFPT1\", instance.href);",
+									"    pm.globals.set(\"NAMEPT1\", instance.name);",
+									"        ",
+									"        ",
+									"    // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"    pm.test('Instance has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"    ",
+									"    pm.test(\"Location on header matches expected\", function (){",
+									"            pm.expect(pm.response.headers.get(\"Location\")).to.equal(request.url + \"/\" +pm.globals.get(\"IDPT1\"));",
+									"        });",
+									"    ",
+									"    // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"    pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"    pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"    pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"    ",
+									"    if (instance.id == pm.globals.get(\"IDPT1\")){",
+									"        pm.test('id equal Post', function(){",
+									"            pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT1\"));",
+									"        });",
+									"           ",
+									"        pm.test('href equal Post', function(){",
+									"           pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT1\"));",
+									"        });",
+									"           ",
+									"        pm.test('name equal Post', function(){",
+									"           pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT1\"));",
+									"        });",
+									"    }",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"name\": \"some name\"\r\n}"
+						},
+						"url": {
+							"raw": "{{PartnershipTypeManagementAPI}}/partnershipType",
+							"host": [
+								"{{PartnershipTypeManagementAPI}}"
+							],
+							"path": [
+								"partnershipType"
+							]
+						},
+						"description": "Server returns 4xx error when Product creation request is missing mandatory information"
+					},
+					"response": []
+				},
+				{
+					"_postman_id": "74ee7fe8-1243-4ff0-bc31-e3fa3703c821",
+					"name": "Get all PartnershipType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "78ebcfed-c8d5-49b6-8b09-bd8eb7dafa40",
+								"type": "text/javascript",
+								"exec": [
+									"// See: https://www.getpostman.com/docs/v6/postman/scripts/postman_sandbox_api_reference",
+									"",
+									"pm.test('Content-Type is present', function() { pm.response.to.have.header('Content-Type') });",
+									"pm.test('Content-Type is application/json', function() { pm.response.headers.has('application/json') });",
+									"//Response Code 200-Created",
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"if (Array.isArray(jsonData) && (jsonData.length > 0)) {",
+									"    jsonData.forEach(function(instance, index) {",
+									"      ",
+									"        // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"        pm.test('Instance ' +index+ ' has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"        ",
+									"        // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"        pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"        pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"        pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"        ",
+									"        if (instance.id == pm.globals.get(\"IDPT1\")){",
+									"            pm.test('id equal Post', function(){",
+									"                pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT1\"));",
+									"            });",
+									"               ",
+									"            pm.test('href equal Post', function(){",
+									"               pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT1\"));",
+									"            });",
+									"               ",
+									"            pm.test('name equal Post', function(){",
+									"               pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT1\"));",
+									"            });",
+									"        }",
+									"    });",
+									"}",
+									"",
+									"else {",
+									"    ",
+									"    var instance = pm.response.json();",
+									"",
+									"    // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"    pm.test('Instance has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"        ",
+									"    // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"    pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"    pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"    pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"    ",
+									"    if (instance.id == pm.globals.get(\"IDPT1\")){",
+									"        pm.test('id equal Post', function(){",
+									"            pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT1\"));",
+									"        });",
+									"           ",
+									"        pm.test('href equal Post', function(){",
+									"           pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT1\"));",
+									"        });",
+									"           ",
+									"        pm.test('name equal Post', function(){",
+									"           pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT1\"));",
+									"        });",
+									"    }",
+									"}",
+									"",
+									"pm.test(\"IDPT1 is in the body\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"IDPT1\"));",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{PartnershipTypeManagementAPI}}/partnershipType",
+							"host": [
+								"{{PartnershipTypeManagementAPI}}"
+							],
+							"path": [
+								"partnershipType"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"_postman_id": "5a5463d6-60d6-4cba-b215-0baa300fb82c",
+					"name": "/partnershipType/{IDPT1}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "05da11ea-637b-4c78-9c1f-31ee3f04b0a1",
+								"type": "text/javascript",
+								"exec": [
+									"// See: https://www.getpostman.com/docs/v6/postman/scripts/postman_sandbox_api_reference",
+									"",
+									"pm.test('Content-Type is present', function() { pm.response.to.have.header('Content-Type') });",
+									"pm.test('Content-Type is application/json', function() { pm.response.headers.has('application/json') });",
+									"//Response Code 200-Created",
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"if (Array.isArray(jsonData) && (jsonData.length > 0)) {",
+									"    jsonData.forEach(function(instance, index) {",
+									"      ",
+									"        // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"        pm.test('Instance ' +index+ ' has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"        ",
+									"        // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"        pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"        pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"        pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"        ",
+									"        if (instance.id == pm.globals.get(\"IDPT1\")){",
+									"            pm.test('id equal Post', function(){",
+									"                pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT1\"));",
+									"            });",
+									"               ",
+									"            pm.test('href equal Post', function(){",
+									"               pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT1\"));",
+									"            });",
+									"               ",
+									"            pm.test('name equal Post', function(){",
+									"               pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT1\"));",
+									"            });",
+									"        }",
+									"    });",
+									"}",
+									"",
+									"else {",
+									"    ",
+									"    var instance = pm.response.json();",
+									"",
+									"    // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"    pm.test('Instance has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"        ",
+									"    // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"    pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"    pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"    pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"    ",
+									"    if (instance.id == pm.globals.get(\"IDPT1\")){",
+									"        pm.test('id equal Post', function(){",
+									"            pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT1\"));",
+									"        });",
+									"           ",
+									"        pm.test('href equal Post', function(){",
+									"           pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT1\"));",
+									"        });",
+									"           ",
+									"        pm.test('name equal Post', function(){",
+									"           pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT1\"));",
+									"        });",
+									"    }",
+									"}",
+									"",
+									"pm.test(\"IDPT1 is in the body\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"IDPT1\"));",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{PartnershipTypeManagementAPI}}/partnershipType/{{IDPT1}}",
+							"host": [
+								"{{PartnershipTypeManagementAPI}}"
+							],
+							"path": [
+								"partnershipType",
+								"{{IDPT1}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "A new product will be created with minimal required information, API returns success code (200)"
+		},
+		{
+			"_postman_id": "7e54c86b-105e-45da-9c3d-934353907e92",
+			"name": "TC_Partnership_N2 - Create new Partnership with minimum set of parameters supported by server",
+			"item": [
+				{
+					"_postman_id": "b314ddcd-56ab-4f5c-be07-f98bee2bbbc1",
+					"name": "Create new PartnershipType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3057bad0-470e-4d63-a206-9cffb4487964",
+								"type": "text/javascript",
+								"exec": [
+									"// See: https://www.getpostman.com/docs/v6/postman/scripts/postman_sandbox_api_reference",
+									"",
+									"pm.test('Content-Type is present', function() { pm.response.to.have.header('Content-Type') });",
+									"pm.test('Content-Type is application/json', function() { pm.response.headers.has('application/json') });",
+									"//Response Code 201-Created",
+									"pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); });",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"if (Array.isArray(jsonData) && (jsonData.length > 0)) {",
+									"    jsonData.forEach(function(instance, index) {",
+									"          ",
+									"        pm.globals.set(\"IDPT2\", instance.id);",
+									"        pm.globals.set(\"HREFPT2\", instance.href);",
+									"        pm.globals.set(\"NAMEPT2\", instance.name);",
+									"            ",
+									"        // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"        pm.test('Instance ' +index+ ' has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"            ",
+									"        pm.test(\"Location on header matches expected\", function (){",
+									"            pm.expect(pm.response.headers.get(\"Location\")).to.equal(request.url + \"/\" +pm.globals.get(\"IDPT2\"));",
+									"        });",
+									"            ",
+									"        // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"        pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"        pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"        pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"        ",
+									"        if (instance.id == pm.globals.get(\"IDPT2\")){",
+									"            pm.test('id equal Post', function(){",
+									"                pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT2\"));",
+									"            });",
+									"               ",
+									"            pm.test('href equal Post', function(){",
+									"               pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT2\"));",
+									"            });",
+									"               ",
+									"            pm.test('name equal Post', function(){",
+									"               pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT2\"));",
+									"            });",
+									"        }",
+									"    });",
+									"}",
+									"else {",
+									"    var instance = pm.response.json();",
+									"        ",
+									"    pm.globals.set(\"IDPT2\", instance.id);",
+									"    pm.globals.set(\"HREFPT2\", instance.href);",
+									"    pm.globals.set(\"NAMEPT2\", instance.name);",
+									"        ",
+									"        ",
+									"    // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"    pm.test('Instance has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"    ",
+									"    pm.test(\"Location on header matches expected\", function (){",
+									"            pm.expect(pm.response.headers.get(\"Location\")).to.equal(request.url + \"/\" +pm.globals.get(\"IDPT2\"));",
+									"        });",
+									"    ",
+									"    // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"    pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"    pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"    pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"    ",
+									"    if (instance.id == pm.globals.get(\"IDPT2\")){",
+									"        pm.test('id equal Post', function(){",
+									"            pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT2\"));",
+									"        });",
+									"           ",
+									"        pm.test('href equal Post', function(){",
+									"           pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT2\"));",
+									"        });",
+									"           ",
+									"        pm.test('name equal Post', function(){",
+									"           pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT2\"));",
+									"        });",
+									"    }",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"description\": \"nanana\",\r\n\t\"name\": \"some name\",\r\n\t\"roleType\":\r\n\t[\r\n\t\t{\r\n\t\t\t\"name\": \"name of role type 1\",\r\n\t\t\t\"description\": \"This is the role type description\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"name\": \"name of role type 2\",\r\n\t\t\t\"description\": \"This is the role type description\"\r\n\t\t}\r\n\t]\r\n}"
+						},
+						"url": {
+							"raw": "{{PartnershipTypeManagementAPI}}/partnershipType",
+							"host": [
+								"{{PartnershipTypeManagementAPI}}"
+							],
+							"path": [
+								"partnershipType"
+							]
+						},
+						"description": "Server returns 4xx error when Product creation request is missing mandatory information"
+					},
+					"response": []
+				},
+				{
+					"_postman_id": "12003b6c-6018-4bbf-9149-ac63e509019c",
+					"name": "Get all PartnershipType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2db7f320-a0c6-44f6-961f-7003f0a39546",
+								"type": "text/javascript",
+								"exec": [
+									"// See: https://www.getpostman.com/docs/v6/postman/scripts/postman_sandbox_api_reference",
+									"",
+									"pm.test('Content-Type is present', function() { pm.response.to.have.header('Content-Type') });",
+									"pm.test('Content-Type is application/json', function() { pm.response.headers.has('application/json') });",
+									"//Response Code 200-Created",
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"if (Array.isArray(jsonData) && (jsonData.length > 0)) {",
+									"    jsonData.forEach(function(instance, index) {",
+									"      ",
+									"        // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"        pm.test('Instance ' +index+ ' has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"        ",
+									"        // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"        pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"        pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"        pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"        ",
+									"        if (instance.id == pm.globals.get(\"IDPT2\")){",
+									"            pm.test('id equal Post', function(){",
+									"                pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT2\"));",
+									"            });",
+									"               ",
+									"            pm.test('href equal Post', function(){",
+									"               pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT2\"));",
+									"            });",
+									"               ",
+									"            pm.test('name equal Post', function(){",
+									"               pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT2\"));",
+									"            });",
+									"        }",
+									"    });",
+									"}",
+									"",
+									"else {",
+									"    ",
+									"    var instance = pm.response.json();",
+									"",
+									"    // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"    pm.test('Instance has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"        ",
+									"    // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"    pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"    pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"    pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"    ",
+									"    if (instance.id == pm.globals.get(\"IDPT2\")){",
+									"        pm.test('id equal Post', function(){",
+									"            pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT2\"));",
+									"        });",
+									"           ",
+									"        pm.test('href equal Post', function(){",
+									"           pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT2\"));",
+									"        });",
+									"           ",
+									"        pm.test('name equal Post', function(){",
+									"           pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT2\"));",
+									"        });",
+									"    }",
+									"}",
+									"",
+									"pm.test(\"IDPT2 is in the body\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"IDPT2\"));",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{PartnershipTypeManagementAPI}}/partnershipType/",
+							"host": [
+								"{{PartnershipTypeManagementAPI}}"
+							],
+							"path": [
+								"partnershipType",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"_postman_id": "85e35e66-74a2-417a-999f-4026d9119e88",
+					"name": "/partnershipType/{IDPT2}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ec0a3b61-e95d-4817-8790-f69e94e9cae1",
+								"type": "text/javascript",
+								"exec": [
+									"// See: https://www.getpostman.com/docs/v6/postman/scripts/postman_sandbox_api_reference",
+									"",
+									"pm.test('Content-Type is present', function() { pm.response.to.have.header('Content-Type') });",
+									"pm.test('Content-Type is application/json', function() { pm.response.headers.has('application/json') });",
+									"//Response Code 200-Created",
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"if (Array.isArray(jsonData) && (jsonData.length > 0)) {",
+									"    jsonData.forEach(function(instance, index) {",
+									"      ",
+									"        // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"        pm.test('Instance ' +index+ ' has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"        ",
+									"        // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"        pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"        pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"        pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"        ",
+									"        if (instance.id == pm.globals.get(\"IDPT2\")){",
+									"            pm.test('id equal Post', function(){",
+									"                pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT2\"));",
+									"            });",
+									"               ",
+									"            pm.test('href equal Post', function(){",
+									"               pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT2\"));",
+									"            });",
+									"               ",
+									"            pm.test('name equal Post', function(){",
+									"               pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT2\"));",
+									"            });",
+									"        }",
+									"    });",
+									"}",
+									"",
+									"else {",
+									"    ",
+									"    var instance = pm.response.json();",
+									"",
+									"    // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"    pm.test('Instance has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"        ",
+									"    // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"    pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"    pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"    pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"    ",
+									"    if (instance.id == pm.globals.get(\"IDPT2\")){",
+									"        pm.test('id equal Post', function(){",
+									"            pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT2\"));",
+									"        });",
+									"           ",
+									"        pm.test('href equal Post', function(){",
+									"           pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT2\"));",
+									"        });",
+									"           ",
+									"        pm.test('name equal Post', function(){",
+									"           pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT2\"));",
+									"        });",
+									"    }",
+									"}",
+									"",
+									"pm.test(\"IDPT2 is in the body\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"IDPT2\"));",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{PartnershipTypeManagementAPI}}/partnershipType/{{IDPT2}}",
+							"host": [
+								"{{PartnershipTypeManagementAPI}}"
+							],
+							"path": [
+								"partnershipType",
+								"{{IDPT2}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Patch an existing Product. Server returns success (200)"
+		},
+		{
+			"_postman_id": "764a738e-e2b8-4db7-a5c5-8f5872bd4d68",
+			"name": "TC_Partnership_N3 - Search for PartnershipType with specific characteristics",
+			"item": [
+				{
+					"_postman_id": "173b3bda-2272-4e9a-999d-a1918f3c6528",
+					"name": "Get all partnershipType and test if it has {IDPT1} and {IDPT2}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "18892dad-35a5-4b53-8aaf-ced0114028a1",
+								"type": "text/javascript",
+								"exec": [
+									"// See: https://www.getpostman.com/docs/v6/postman/scripts/postman_sandbox_api_reference",
+									"",
+									"pm.test('Content-Type is present', function() { pm.response.to.have.header('Content-Type') });",
+									"pm.test('Content-Type is application/json', function() { pm.response.headers.has('application/json') });",
+									"//Response Code 200-Created",
+									"pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"if (Array.isArray(jsonData) && (jsonData.length > 0)) {",
+									"    jsonData.forEach(function(instance, index) {",
+									"      ",
+									"        // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"        pm.test('Instance ' +index+ ' has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"        ",
+									"        // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"        pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"        pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"        pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"        ",
+									"        if (instance.id == pm.globals.get(\"IDPT1\")){",
+									"            pm.test('id equal Post', function(){",
+									"                pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT1\"));",
+									"            });",
+									"               ",
+									"            pm.test('href equal Post', function(){",
+									"               pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT1\"));",
+									"            });",
+									"               ",
+									"            pm.test('name equal Post', function(){",
+									"               pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT1\"));",
+									"            });",
+									"        }",
+									"        ",
+									"        if (instance.id == pm.globals.get(\"IDPT2\")){",
+									"            pm.test('id equal Post', function(){",
+									"                pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT2\"));",
+									"            });",
+									"               ",
+									"            pm.test('href equal Post', function(){",
+									"               pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT2\"));",
+									"            });",
+									"               ",
+									"            pm.test('name equal Post', function(){",
+									"               pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT2\"));",
+									"            });",
+									"        }",
+									"    });",
+									"}",
+									"",
+									"else {",
+									"    ",
+									"    var instance = pm.response.json();",
+									"",
+									"    // Mandatory attributes listed in \"definitions.ApointmentManagement.required\" are [id, href, name]",
+									"        var requiredAttributes = [ 'id', 'href', 'name'];",
+									"    pm.test('Instance has all mandatory attributes', function() { pm.expect(Object.keys(instance)).to.include.members(requiredAttributes) } );",
+									"        ",
+									"    // Checking all remaining possible attributes for ApointmentManagement, taken from the Swagger file",
+									"    pm.test('Response has id attribute', function() { pm.expect(instance.id).to.be.a('string'); });",
+									"    pm.test('Response has href attribute', function() { pm.expect(instance.href).to.be.a('string'); });",
+									"    pm.test('Response has name attribute', function() { pm.expect(instance.name).to.be.a('string'); });",
+									"    ",
+									"    if (instance.id == pm.globals.get(\"IDPT1\")){",
+									"        pm.test('id equal Post', function(){",
+									"            pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT1\"));",
+									"        });",
+									"           ",
+									"        pm.test('href equal Post', function(){",
+									"           pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT1\"));",
+									"        });",
+									"           ",
+									"        pm.test('name equal Post', function(){",
+									"           pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT1\"));",
+									"        });",
+									"    }",
+									"    ",
+									"    if (instance.id == pm.globals.get(\"IDPT2\")){",
+									"        pm.test('id equal Post', function(){",
+									"            pm.expect(instance.id).to.eql(pm.globals.get(\"IDPT2\"));",
+									"        });",
+									"           ",
+									"        pm.test('href equal Post', function(){",
+									"           pm.expect(instance.href).to.eql(pm.globals.get(\"HREFPT2\"));",
+									"        });",
+									"           ",
+									"        pm.test('name equal Post', function(){",
+									"           pm.expect(instance.name).to.eql(pm.globals.get(\"NAMEPT2\"));",
+									"        });",
+									"    }",
+									"}",
+									"",
+									"pm.test(\"IDPT1 is in the body\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"IDPT1\"));",
+									"});",
+									"",
+									"pm.test(\"IDPT2 is in the body\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"IDPT2\"));",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{PartnershipTypeManagementAPI}}/partnershipType/",
+							"host": [
+								"{{PartnershipTypeManagementAPI}}"
+							],
+							"path": [
+								"partnershipType",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Return the Product objects that satisfy the supplied search criteria"
+		},
+		{
+			"_postman_id": "63f8d098-0c44-43b5-a863-a0be1f43e1d4",
+			"name": "TC_Partnership_E1 - Unknown PartnershipType Identifier",
+			"item": [
+				{
+					"_postman_id": "474d2b7b-ccdb-4962-9c0f-d2bb46d4e9df",
+					"name": "/partnershipType/{unknown}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6eeb273f-30cd-4381-9fb1-9a43b58cbbd7",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"sdfsdf\",\r\n    \"description\": \"sdfsdf\",\r\n    \"isBundle\": false,\r\n    \"lifecycleStatus\": \"Active\",\r\n    \"validFor\":\r\n    {\r\n        \"startDateTime\": \"2020-01-20T00:00:00.000+0000\",\r\n        \"endDateTime\": \"2050-01-20T00:00:00.000+0000\"\r\n    },\r\n    \"productSpecification\":\r\n     {\r\n        \"id\": \"11\",\r\n        \"name\": \"Product11\"\r\n    },\r\n    \"version\": \"2.0\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{PartnershipTypeManagementAPI}}/partnershipType/1354879864",
+							"host": [
+								"{{PartnershipTypeManagementAPI}}"
+							],
+							"path": [
+								"partnershipType",
+								"1354879864"
+							]
+						},
+						"description": "retrieve Product with unknown id"
+					},
+					"response": []
+				}
+			],
+			"description": "The API should return a 404 in the event it is invoked with a product ID that is not recognised"
+		},
+		{
+			"_postman_id": "89bb9a7d-57b3-4b22-bfad-f5f46d409ef6",
+			"name": "TC_Partnership_E2 - Invalid request - Missing mandatory Parameter",
+			"item": [
+				{
+					"_postman_id": "addff1b5-2806-4bc9-a4e9-50f335c125e1",
+					"name": "TC_E2_Post with missing mandatory parameters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e9d5f5f4-27fb-4474-9ce9-fd00a2d4c600",
+								"type": "text/javascript",
+								"exec": [
+									"//Notice that this request is missing mandatory parameter \"name\"",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"description\": \"<anytext>\"\r\n}"
+						},
+						"url": {
+							"raw": "{{PartnershipTypeManagementAPI}}/partnershipType/",
+							"host": [
+								"{{PartnershipTypeManagementAPI}}"
+							],
+							"path": [
+								"partnershipType",
+								""
+							]
+						},
+						"description": "Server returns 4xx error when Product creation request is missing mandatory information"
+					},
+					"response": []
+				}
+			],
+			"description": "The Product creation request has failed due to missing parameter(s)"
+		},
+		{
+			"_postman_id": "6b0e2482-7441-41ce-9d51-b34c1931ff57",
+			"name": "TC_Partnership_E3 - Invalid request - Missing parameter mandatory in context",
+			"item": [
+				{
+					"_postman_id": "5ccb785f-362d-4683-afc9-7f1dca3312dd",
+					"name": "TC_E3_Post with missing mandatory parameters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e9d5f5f4-27fb-4474-9ce9-fd00a2d4c600",
+								"type": "text/javascript",
+								"exec": [
+									"//Notice that this request is missing mandatory parameter \"name\"",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"description\": \"<anytext>\",\r\n\t\"name\": \"my partnership\",\r\n\t\"roleType\":[\r\n\t\t{\r\n\t\t\t\"description\": \"some text\"\r\n\t\t}\r\n\t]\r\n}"
+						},
+						"url": {
+							"raw": "{{PartnershipTypeManagementAPI}}/partnershipType/",
+							"host": [
+								"{{PartnershipTypeManagementAPI}}"
+							],
+							"path": [
+								"partnershipType",
+								""
+							]
+						},
+						"description": "Server returns 4xx error when Product creation request is missing mandatory information"
+					},
+					"response": []
+				}
+			],
+			"description": "The Product creation request has failed due to missing parameter(s)"
+		}
+	]
+}
