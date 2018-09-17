@@ -31,10 +31,10 @@ Wait for NPM to install the dependencies and go to step 2.
 
 ## 2.
 Finally enter the URL for the base of your API, for example if you can get a resource on:
->http://tm-forum-open-api-reference-implementation.mybluemix.net:80/tmf-api/partnershipTypeManagement/v2/partnershipType
+>https://tm-forum-open-api-reference-implementation.mybluemix.net/tmf-api/partnershipTypeManagement/v2/partnershipType
 
 You should input:
->>http://tm-forum-open-api-reference-implementation.mybluemix.net:80/tmf-api/partnershipTypeManagement/v2/
+>https://tm-forum-open-api-reference-implementation.mybluemix.net/tmf-api/partnershipTypeManagement/v2/
 
 The script will now run for a few minutes and when it ends, you will have a resultsHTML.html file inside the folder, this is the file you need to forward to TMForum to get your certification if your API passed every test, the file should look like this:
 
